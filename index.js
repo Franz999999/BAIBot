@@ -1,63 +1,72 @@
-const server = require('./server.js');
-const mineflayer = require('mineflayer');
-const antiafk = require('mineflayer-antiafk');
-const translatte = require('translatte');
-const axios = require('axios');
-const LanguageDetect = require('languagedetect');
+const server = require("./server.js");
+const mineflayer = require("mineflayer");
+const antiafk = require("mineflayer-antiafk");
+const translatte = require("translatte");
+const axios = require("axios");
+const LanguageDetect = require("languagedetect");
 
 const lngDetector = new LanguageDetect();
 
 const botArgs = {
-  host: 'MCserverExZD.aternos.me',
-  port: '64545',
+  host: "MCserverExZD.aternos.me",
+  port: "64545",
   username: "Bai",
-  version: '1.20.1'
+  version: "1.20.1",
 };
 
 const formatTime = () => {
-  const options = { hour: 'numeric', minute: 'numeric', second: 'numeric', hour12: true, timeZone: 'Asia/Manila' };
-  return new Date().toLocaleTimeString('en-US', options);
+  const options = {
+    hour: "numeric",
+    minute: "numeric",
+    second: "numeric",
+    hour12: true,
+    timeZone: "Asia/Manila",
+  };
+  return new Date().toLocaleTimeString("en-US", options);
 };
 
 const initBot = () => {
   let bot = mineflayer.createBot(botArgs);
   bot.loadPlugin(antiafk);
 
-  bot.on('login', () => {
+  bot.on("login", () => {
     let botSocket = bot._client.socket;
-    console.log(`Logged in \nServer: ${botSocket.server ? botSocket.server : botSocket._host} \nTime: ${formatTime()}`);
+    console.log(
+      `Logged in \nServer: ${
+        botSocket.server ? botSocket.server : botSocket._host
+      } \nTime: ${formatTime()}`,
+    );
   });
 
-  bot.on('end', () => {
+  bot.on("end", () => {
     console.log(`Disconnected \nTime: ${formatTime()}\n`);
-    setTimeout(initBot, Math.floor((Math.random() * 60000) + 30000));
+    setTimeout(initBot, Math.floor(Math.random() * 60000 + 30000));
   });
 
-  bot.on('spawn', async () => {
+  bot.on("spawn", async () => {
     console.log("Spawned in\n");
     bot.afk.setOptions({ fishing: false, chatting: false });
     bot.afk.start();
-    await bot.waitForTicks((Math.floor((Math.random() * 24000) + 12000)));
+    await bot.waitForTicks(Math.floor(Math.random() * 24000 + 12000));
     bot.quit();
   });
 
-  bot.on('error', (err) => {
-    if (err.code === 'ECONNREFUSED') {
-      console.log(`Failed to connect to ${err.address}:${err.port} `)
+  bot.on("error", (err) => {
+    if (err.code === "ECONNREFUSED") {
+      console.log(`Failed to connect to ${err.address}:${err.port} `);
     } else {
       console.log(`Unhandled error: ${err} `);
     }
   });
 
-  bot.on('chat', async (username, message) => {
+  bot.on("chat", async (username, message) => {
     let called = false;
     var question = "";
     if (username !== bot.username) {
       if (message.includes(bot.username)) {
         question = message.split(bot.username)[1]?.trim();
         called = true;
-      }
-      else if (message.includes("bai")) {
+      } else if (message.includes("bai")) {
         question = message.split("bai")[1]?.trim();
         called = true;
       }
@@ -66,27 +75,27 @@ const initBot = () => {
 
       if (detect.includes("cebuano") && called) {
         console.log("Cebuano: True");
-        console.log('Question: ' + question);
+        console.log("Question: " + question);
 
         if (question) {
-          bot.chat('Loading bai');
+          bot.chat("Loading bai");
           const gptResponse = await getChatGptResponse(question);
-          await bot.waitForTicks((Math.floor((Math.random() * 20) + 10)));
-          translatte(gptResponse, { to: 'ceb' }, { "google_free": true }).then(res => {
-            console.log('Answer: ' + res.text + '\n');
-            bot.chat(res.text);
-          }).catch(err => {
-            console.error(err);
-            console.log('Answer: ' + gptResponse + '\n');
-            bot.chat(gptResponse);
-          });
+          await bot.waitForTicks(Math.floor(Math.random() * 20 + 10));
+          translatte(gptResponse, { to: "ceb" }, { google_free: true })
+            .then((res) => {
+              console.log("Answer: " + res.text + "\n");
+              bot.chat(res.text);
+            })
+            .catch((err) => {
+              console.error(err);
+              console.log("Answer: " + gptResponse + "\n");
+              bot.chat(gptResponse);
+            });
         }
-      }
-      else if (called) {
+      } else if (called) {
         console.log("Cebuano: False\n");
         bot.chat("Wala ko kasabot, magbisaya lng ta bai");
       }
-
     }
     called = false;
   });
@@ -94,27 +103,29 @@ const initBot = () => {
 
 const getChatGptResponse = async (question) => {
   try {
-    const apiKey = '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';
+    const apiKey = "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";
     const response = await axios.post(
-      'https://api.openai.com/v1/chat/completions',
+      "https://api.openai.com/v1/chat/completions",
       {
-        model: 'gpt-3.5-turbo',
+        model: "gpt-3.5-turbo",
         messages: [
-          { role: 'system', content: 'You are a helpful assistant.' },
-          { role: 'user', content: question },
+          { role: "system", content: "You are a helpful assistant." },
+          { role: "user", content: question },
         ],
       },
       {
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${apiKey} `,
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${apiKey} `,
         },
-      }
+      },
     );
 
-    return response.data.choices[0]?.message?.content || "Sorry, wala nako nasabtan.";
+    return (
+      response.data.choices[0]?.message?.content || "Sorry, wala nako nasabtan."
+    );
   } catch (error) {
-    console.error('Error calling ChatGPT API:', error.message);
+    console.error("Error calling ChatGPT API:", error.message);
     return "Sorry, naay error";
   }
 };
