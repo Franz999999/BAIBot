@@ -35,7 +35,7 @@
     },
     "node index.js": {
       "name": "node index.js",
-      "command": "node index.js",
+      "command": "pm2 start index.js",
       "runAtStart": true,
       "preview": {
         "port": 8080
