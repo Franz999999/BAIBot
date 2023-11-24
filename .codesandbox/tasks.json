@@ -1,0 +1,45 @@
+{
+  // These tasks will run in order when initializing your CodeSandbox project.
+  "setupTasks": [
+    {
+      "name": "Install Dependencies",
+      "command": "npm install"
+    },
+    {
+      "name": "npm install mineflayer",
+      "command": "npm install mineflayer"
+    },
+    {
+      "name": "npm install axios",
+      "command": "npm install axios"
+    },
+    {
+      "name": "npm i translatte",
+      "command": "npm i translatte"
+    },
+    {
+      "name": "npm install languagedetect --save",
+      "command": "npm install languagedetect --save"
+    },
+    {
+      "name": "npm i https://github.com/Etiaro/mineflayer-antiafk",
+      "command": "npm i https://github.com/Etiaro/mineflayer-antiafk"
+    }
+  ],
+
+  // These tasks can be run from CodeSandbox. Running one will open a log in the app.
+  "tasks": {
+    "test": {
+      "name": "test",
+      "command": "npm run test"
+    },
+    "node index.js": {
+      "name": "node index.js",
+      "command": "node index.js",
+      "runAtStart": true,
+      "preview": {
+        "port": 8080
+      }
+    }
+  }
+}
