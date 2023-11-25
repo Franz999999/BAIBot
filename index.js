@@ -10,7 +10,7 @@ const lngDetector = new LanguageDetect();
 const botArgs = {
   host: "MCserverExZD.aternos.me",
   port: "64545",
-  username: "Bai",
+  username: "B-AI",
   version: "1.20.1",
 };
 
@@ -67,8 +67,8 @@ const initBot = () => {
       process.exit(0);
     }
     if (username !== bot.username) {
-      if (message.includes(bot.username)) {
-        question = message.split(bot.username)[1]?.trim();
+      if (message.includes("Bai")) {
+        question = message.split("Bai")[1]?.trim();
         called = true;
       } else if (message.includes("bai")) {
         question = message.split("bai")[1]?.trim();
