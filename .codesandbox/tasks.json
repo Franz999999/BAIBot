@@ -24,6 +24,10 @@
     {
       "name": "npm i https://github.com/Etiaro/mineflayer-antiafk",
       "command": "npm i https://github.com/Etiaro/mineflayer-antiafk"
+    },
+    {
+      "command": "npm install pm2 -g",
+      "name": "p"
     }
   ],
 

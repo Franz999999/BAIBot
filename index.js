@@ -62,6 +62,9 @@ const initBot = () => {
   bot.on("chat", async (username, message) => {
     let called = false;
     var question = "";
+    if (message.includes("Bai shut down")) {
+      process.exit(0);
+    }
     if (username !== bot.username) {
       if (message.includes(bot.username)) {
         question = message.split(bot.username)[1]?.trim();
@@ -70,6 +73,11 @@ const initBot = () => {
         question = message.split("bai")[1]?.trim();
         called = true;
       }
+
+      if (message.includes("katulog nalang" && called)) {
+        process.exit(0);
+      }
+
       var language = lngDetector.detect(question, 5);
       var detect = language.toString();
 
