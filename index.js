@@ -63,6 +63,7 @@ const initBot = () => {
     let called = false;
     var question = "";
     if (message.includes("Bai shut down")) {
+      bot.chat("Bai bai");
       process.exit(0);
     }
     if (username !== bot.username) {
