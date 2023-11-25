@@ -40,7 +40,7 @@
     "node index.js": {
       "name": "node index.js",
       "command": "pm2 start index.js",
-      "runAtStart": true,
+      "runAtStart": false,
       "preview": {
         "port": 8080
       }
