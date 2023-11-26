@@ -112,7 +112,7 @@ const initBot = () => {
 
 const getChatGptResponse = async (question) => {
   try {
-    const apiKey = "";
+    const apiKey = "YOUR_API_KEY";
     const response = await axios.post(
       "https://api.openai.com/v1/chat/completions",
       {
