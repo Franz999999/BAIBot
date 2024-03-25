@@ -8,8 +8,8 @@ const LanguageDetect = require("languagedetect");
 const lngDetector = new LanguageDetect();
 
 const botArgs = {
-  host: "MCserverExZD.aternos.me",
-  port: "64545",
+  host: "ocmj124.aternos.me",
+  port: "24771",
   username: "B-AI",
   version: "1.20.1",
 };
